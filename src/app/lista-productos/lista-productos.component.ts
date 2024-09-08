@@ -13,6 +13,7 @@ export class ListaProductosComponent implements OnInit {
   pageSize = 10;
   totalPages = 0;
   totalItems = 0;
+  searchTerm = '';
 
   constructor(private productoService: ProductoService) { }
 
@@ -21,7 +22,7 @@ export class ListaProductosComponent implements OnInit {
   }
 
   obtenerProductos() {
-    this.productoService.obtenerProductos(this.currentPage, this.pageSize).subscribe(
+    this.productoService.obtenerProductos(this.currentPage, this.pageSize, this.searchTerm).subscribe(
       data => {
         this.productos = data.content;
         this.totalPages = data.totalPages;
@@ -31,6 +32,11 @@ export class ListaProductosComponent implements OnInit {
         console.error('Error al obtener productos:', error);
       }
     );
+  }
+
+  onSearch() {
+    this.currentPage = 0; // Reset to first page when searching
+    this.obtenerProductos();
   }
 
   changePage(page: number) {
