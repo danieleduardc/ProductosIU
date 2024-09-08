@@ -9,11 +9,11 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductoService {
-  private baseUrl = 'http://localhost:8081/api/v1/productos/';
+  private baseUrl = 'http://localhost:8081/api/v1/productos';
 
   constructor(private httpClient: HttpClient) { }
 
-  obtenerProductos(page: number = 0, size: number = 10, searchTerm: string = ''): Observable<any> {
+  obtenerProductos(page: number = 0, size: number = 0, searchTerm: string = ''): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -31,19 +31,25 @@ export class ProductoService {
       );
     } else {
       // Si no hay término de búsqueda, obtén todos los productos
-      return this.httpClient.get<any>(`${this.baseUrl}page`, { params });
+      return this.httpClient.get<any>(`${this.baseUrl}/page`, { params });
     }
   }
 
   private buscarPorCategoria(params: HttpParams, searchTerm: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}page`, { 
+    return this.httpClient.get<any>(`${this.baseUrl}/page`, { 
       params: params.set('categoria', searchTerm)
     });
   }
 
   private buscarPorNombre(params: HttpParams, searchTerm: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}page`, { 
+    return this.httpClient.get<any>(`${this.baseUrl}/page`, { 
       params: params.set('nombre', searchTerm)
     });
   }
+
+
+   crearProducto(producto: Producto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}`, producto);
+  }
+
 }

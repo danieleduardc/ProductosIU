@@ -1,11 +1,11 @@
 <nav class="navbar navbar-dark bg-dark">
     <form class="form-inline">
-        <button class="btn btn-outline-success" type="button">Lista Productos</button>
-        <button class="btn btn-sm btn-outline-secondary" type="button">Registrar</button>
-      </form>
+        <button class="btn btn-outline-success" type="button" (click)="navigateTo('productos')">Lista Productos</button>
+        <button class="btn btn-sm btn-outline-secondary" type="button" (click)="navigateTo('registrar')">Registrar</button>
+    </form>
 </nav>
-  
-<h1 class="text-center">{{title}}</h1>
+<router-outlet></router-outlet>
+
 <div class="container">
     <router-outlet></router-outlet>
 </div>
