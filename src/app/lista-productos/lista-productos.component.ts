@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Producto } from '../producto';
 import { ProductoService } from '../producto.service';
 
@@ -16,14 +17,17 @@ export class ListaProductosComponent implements OnInit {
   totalItems = 0;
   searchTerm = '';
 
-  constructor(private productoService: ProductoService) { }
+  constructor(
+    private productoService: ProductoService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.obtenerProductos();
   }
 
-  onEdit(productoId: number) {
-    this.actualizarProducto(productoId);
+  onEdit(id: number) {
+    this.router.navigate(['/actualizar-producto', id]);
   }
 
   onDelete(productoId: number) {
@@ -43,9 +47,8 @@ export class ListaProductosComponent implements OnInit {
     );
   }
 
-
   onSearch() {
-    this.currentPage = 0; // reseteamos la página
+    this.currentPage = 0;
     this.obtenerProductos();
   }
 
@@ -72,15 +75,6 @@ export class ListaProductosComponent implements OnInit {
     return Array.from({length: this.totalPages}, (_, i) => i);
   }
 
-  actualizarProducto(productoId: number) {
-    this.productoService.actulizarProducto(productoId, this.productos[productoId]).subscribe(
-      data => {
-        this.obtenerProductos();
-      },
-      error => console.log(error)
-    );
-  }
-
   eliminarProducto(productoId: number) {
     this.productoService.eliminarProducto(productoId).subscribe(
       data => {
@@ -89,5 +83,4 @@ export class ListaProductosComponent implements OnInit {
       error => console.log(error)
     );
   }
-
 }

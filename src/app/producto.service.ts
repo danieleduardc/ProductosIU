@@ -9,6 +9,9 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductoService {
+  obtenerCategorias() {
+    throw new Error('Method not implemented.');
+  }
   private baseUrl = 'http://localhost:8081/api/v1/productos';
 
 
@@ -48,7 +51,6 @@ export class ProductoService {
     });
   }
 
-
   crearProducto(producto: Producto): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}`, producto);
   }
@@ -58,6 +60,14 @@ export class ProductoService {
   }
 
   actulizarProducto(id: number, producto: Producto): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/${id}`, producto);
+  }
+
+  obtenerProductoPorId(id: number): Observable<Producto> {
+    return this.httpClient.get<Producto>(`${this.baseUrl}/${id}`);
+  }
+
+  actualizarProducto(id: number, producto: Producto): Observable<Object> {
     return this.httpClient.put(`${this.baseUrl}/${id}`, producto);
   }
 
