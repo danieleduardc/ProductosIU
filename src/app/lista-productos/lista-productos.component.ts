@@ -8,6 +8,7 @@ import { ProductoService } from '../producto.service';
   styleUrls: ['./lista-productos.component.css']
 })
 export class ListaProductosComponent implements OnInit {
+
   productos: Producto[] = [];
   currentPage = 0;
   pageSize = 10;
@@ -19,6 +20,14 @@ export class ListaProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerProductos();
+  }
+
+  onEdit(productoId: number) {
+    this.actualizarProducto(productoId);
+  }
+
+  onDelete(productoId: number) {
+    this.eliminarProducto(productoId);
   }
 
   obtenerProductos() {
@@ -34,8 +43,9 @@ export class ListaProductosComponent implements OnInit {
     );
   }
 
+
   onSearch() {
-    this.currentPage = 0; // Reset to first page when searching
+    this.currentPage = 0; // reseteamos la página
     this.obtenerProductos();
   }
 
@@ -61,4 +71,23 @@ export class ListaProductosComponent implements OnInit {
   getPageNumbers(): number[] {
     return Array.from({length: this.totalPages}, (_, i) => i);
   }
+
+  actualizarProducto(productoId: number) {
+    this.productoService.actulizarProducto(productoId, this.productos[productoId]).subscribe(
+      data => {
+        this.obtenerProductos();
+      },
+      error => console.log(error)
+    );
+  }
+
+  eliminarProducto(productoId: number) {
+    this.productoService.eliminarProducto(productoId).subscribe(
+      data => {
+        this.obtenerProductos();
+      },
+      error => console.log(error)
+    );
+  }
+
 }

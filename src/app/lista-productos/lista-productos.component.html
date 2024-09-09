@@ -16,6 +16,7 @@
         <th>Descripcion</th>
         <th>Precio</th>
         <th>Categoria</th>
+        <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
@@ -25,6 +26,10 @@
           <td>{{ producto.descripcion }}</td>
           <td>{{ producto.precio }}</td>
           <td>{{ producto.categoria.nombre }}</td>
+          <td class="action-buttons">
+            <button class="btn btn-primary btn-sm mr-2" (click)="onEdit(producto.id)">Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="onDelete(producto.id)">Eliminar</button>
+          </td>
         </tr>
     </tbody>
 </table>
